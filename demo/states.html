@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SCRIBE statusline states</title>
+<style>
+  :root { --bg:#0d0d0f; --dim:#6f6f77; --green:#26bf7f; --amber:#ffaf3f; --red:#ff4d4d; --blue:#4cb3ff; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; height: 100vh; background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    font-family: ui-monospace, "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  }
+  #status { font-size: 17px; letter-spacing: .2px; white-space: nowrap; }
+  #meaning { font-size: 14px; color: var(--dim); height: 20px; }
+  .sep { color: #3a3a42; }
+  .green { color: var(--green); } .amber { color: var(--amber); } .red { color: var(--red); } .blue { color: var(--blue); }
+  .bold { font-weight: 700; }
+  .model { color: #f0f0f2; font-weight: 700; }
+  #bar { width: 620px; height: 4px; background: #232329; border-radius: 3px; overflow: hidden; }
+  #fill { height: 100%; width: 0; background: var(--green); }
+</style>
+</head>
+<body>
+  <div id="status"></div>
+  <div id="bar"><div id="fill"></div></div>
+  <div id="meaning"></div>
+<script>
+const MEANING = {
+  SHARP:  "under 50% — full reasoning quality",
+  OK:     "50-74% — fine, start being deliberate",
+  FADING: "75-89% — wrap up the current thread",
+  DUMB:   "90%+ — hand off now, quality is gone",
+};
+
+function stateFor(p) {
+  if (p >= 90) return ["DUMB", "red"];
+  if (p >= 75) return ["FADING", "amber"];
+  if (p >= 50) return ["OK", "green"];
+  return ["SHARP", "green"];
+}
+
+function renderAt(t) {
+  const pct = Math.min(96, Math.round((t / 5200) * 96));
+  const [state, cls] = stateFor(pct);
+  const used = Math.round(pct * 10);
+  const sep = '<span class="sep"> | </span>';
+  let s = '<span class="model">Opus 5 (1M)</span>' + sep +
+          '<span class="blue">[SCRIBE]</span> <span class="' + cls + '">' + state + ' ' + used + 'k/1M ' + pct + '%</span>';
+  if (state === "DUMB") {
+    const on = Math.floor(t / 400) % 2 === 0;
+    s += ' <span class="red bold" style="opacity:' + (on ? 1 : .3) + '">! HANDOFF -&gt; NEW INSTANCE</span>';
+  }
+  document.getElementById("status").innerHTML = s;
+  document.getElementById("meaning").textContent = MEANING[state];
+  const fill = document.getElementById("fill");
+  fill.style.width = pct + "%";
+  fill.style.background = getComputedStyle(document.documentElement).getPropertyValue("--" + cls);
+}
+
+window.renderAt = renderAt;
+renderAt(0);
+</script>
+</body>
+</html>
