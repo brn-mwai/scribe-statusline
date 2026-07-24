@@ -49,9 +49,9 @@ State thresholds:
 | FADING | 75–89%  | Quality slipping, wrap up the current thread |
 | DUMB   | 90%+    | Hand off now |
 
-At DUMB the meter appends a blinking `! HANDOFF -> NEW INSTANCE`. The blink is ANSI
-SGR 5 — terminals that ignore it (VS Code's integrated terminal, iTerm2 by default)
-show it bold red instead.
+At DUMB the whole segment turns red and blinks, and appends `! HANDOFF -> NEW INSTANCE`.
+The blink is ANSI SGR 5 — terminals that ignore it (VS Code's integrated terminal,
+iTerm2 by default) show bold red instead.
 
 **2. Auto handoff at 90%.** A hook fires on every prompt and every tool call. When context
 crosses 90% for the first time in a session, it:

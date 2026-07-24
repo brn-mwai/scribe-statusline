@@ -17,7 +17,8 @@ def paint(text, color):
 
 def rot_state(pct):
     if pct >= DUMB_PCT:
-        return "DUMB", "38;5;196"
+        # SGR 5 blinks where the terminal supports it and degrades to bold elsewhere.
+        return "DUMB", "5;1;38;5;196"
     if pct >= FADING_PCT:
         return "FADING", "38;5;214"
     if pct >= OK_PCT:
