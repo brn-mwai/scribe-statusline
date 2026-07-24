@@ -87,7 +87,8 @@ def main():
     meter = paint(f"{state} {round(used / 1000)}k/{window} {pct}%", color)
     line = f"{badge} {meter}"
     if state == "DUMB":
-        line += " " + paint("! HANDOFF -> NEW INSTANCE", "1;38;5;196")
+        # SGR 5 blinks where the terminal supports it and degrades to bold elsewhere.
+        line += " " + paint("! HANDOFF -> NEW INSTANCE", "5;1;38;5;196")
     segments.append(line)
     sys.stdout.write(paint(" | ", "38;5;240").join(segments))
 
