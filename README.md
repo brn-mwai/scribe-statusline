@@ -123,9 +123,10 @@ script and append the output, or copy `rot_state()` + `last_usage()` out of
 | `scribe_dumb_trigger.py` | The hook. Detects 90%, writes handoff + graph, injects instruction. |
 | `install.py` | Copies files, merges settings with a backup. |
 | `demo/terminal.html`, `demo/states.html` | The demo terminals in the GIFs above — plain HTML, no build. |
-| `demo/capture.mjs` | Renders those pages to GIF (headless Chromium + ffmpeg). |
+| `demo/capture.mjs` | Renders those pages to GIF + MP4 (headless Chromium + ffmpeg). |
+| `demo/scribe-demo.mp4` | Same demo as 1880x1024 H.264, 30fps — for slides and socials. |
 
-## Re-render the demo GIFs
+## Re-render the demo
 
 Needs Node 18+, ffmpeg, and a Playwright Chromium build.
 
@@ -134,5 +135,7 @@ cd demo
 npm install
 node capture.mjs
 ```
+
+Captures at 30fps, then writes an MP4 at full rate and a GIF downsampled to 12fps.
 
 Edit the `SCENE` array in `demo/terminal.html` to change what the terminal says.
