@@ -1,4 +1,11 @@
-# SCRIBE — context-rot monitor + auto handoff for Claude Code
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/scribe-logo-dark.png">
+    <img src="assets/scribe-logo.png" alt="SCRIBE" width="340">
+  </picture>
+</p>
+
+<p align="center"><b>Context-rot monitor + auto handoff for Claude Code</b></p>
 
 A statusline segment that shows how full your context window is, graded into a
 reasoning-quality state, plus a hook that auto-writes a session handoff the moment
